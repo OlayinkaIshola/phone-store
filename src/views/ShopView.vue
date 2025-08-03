@@ -15,12 +15,28 @@
           >
         </div>
 
-        <!-- Results Count -->
-        <p class="text-gray-600">
-          Showing {{ filteredProducts.length }} of {{ productsStore.products.length }} products
-        </p>
+        <!-- Results Count and Advanced Search Toggle -->
+        <div class="flex items-center space-x-4">
+          <p class="text-gray-600">
+            Showing {{ filteredProducts.length }} of {{ productsStore.products.length }} products
+          </p>
+          <button
+            @click="toggleAdvancedSearch"
+            class="flex items-center space-x-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            :class="{ 'bg-blue-50 border-blue-300 text-blue-700': showAdvancedSearch }"
+          >
+            <BarChart3 class="w-4 h-4" />
+            <span>{{ showAdvancedSearch ? 'Hide' : 'Show' }} Advanced Search</span>
+          </button>
+        </div>
       </div>
     </div>
+
+    <!-- Advanced Search Component -->
+    <AdvancedSearch
+      v-if="showAdvancedSearch"
+      @filters-changed="handleAdvancedFiltersChanged"
+    />
 
     <div class="flex flex-col lg:flex-row gap-8">
       <!-- Filters Sidebar -->
@@ -233,19 +249,26 @@
         </div>
       </div>
     </div>
+
+    <!-- Product Comparison Component -->
+    <ProductComparison />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { Search, Grid3X3, List, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { Search, Grid3X3, List, ChevronLeft, ChevronRight, BarChart3 } from 'lucide-vue-next'
 import ProductCard from '@/components/ui/ProductCard.vue'
 import ProductListItem from '@/components/ui/ProductListItem.vue'
+import AdvancedSearch from '@/components/search/AdvancedSearch.vue'
+import ProductComparison from '@/components/search/ProductComparison.vue'
 import { useProductsStore } from '@/stores/products'
+import { useComparisonStore } from '@/stores/comparison'
 
 const route = useRoute()
 const productsStore = useProductsStore()
+const comparisonStore = useComparisonStore()
 
 // Reactive state
 const searchQuery = ref('')
@@ -259,6 +282,21 @@ const sortBy = ref('name')
 const viewMode = ref<'grid' | 'list'>('grid')
 const currentPage = ref(1)
 const itemsPerPage = 12
+
+// Advanced search state
+const showAdvancedSearch = ref(false)
+const advancedFilters = ref<any>({
+  search: '',
+  brand: '',
+  category: '',
+  sortBy: 'name',
+  minPrice: null,
+  maxPrice: null,
+  minRating: '',
+  inStock: false,
+  isNew: false,
+  hasDiscount: false
+})
 
 // Price ranges
 const priceRanges = [
@@ -287,9 +325,23 @@ const getProductCountByBrand = (brand: string) => {
 const filteredProducts = computed(() => {
   let products = [...productsStore.products]
 
+  // Use advanced filters if advanced search is enabled
+  const filters = showAdvancedSearch.value ? advancedFilters.value : {
+    search: searchQuery.value,
+    brand: selectedBrands.value.length > 0 ? selectedBrands.value[0] : '',
+    category: '',
+    sortBy: sortBy.value,
+    minPrice: selectedPriceRange.value?.min || null,
+    maxPrice: selectedPriceRange.value?.max || null,
+    minRating: '',
+    inStock: showInStockOnly.value,
+    isNew: showNewOnly.value,
+    hasDiscount: showDiscountOnly.value
+  }
+
   // Search filter
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
+  if (filters.search) {
+    const query = filters.search.toLowerCase()
     products = products.filter(p =>
       p.name.toLowerCase().includes(query) ||
       p.brand.toLowerCase().includes(query) ||
@@ -298,40 +350,46 @@ const filteredProducts = computed(() => {
   }
 
   // Brand filter
-  if (selectedBrands.value.length > 0) {
-    products = products.filter(p => selectedBrands.value.includes(p.brand))
+  if (filters.brand) {
+    products = products.filter(p => p.brand === filters.brand)
+  }
+
+  // Category filter
+  if (filters.category) {
+    products = products.filter(p => p.category === filters.category)
   }
 
   // Price range filter
-  if (selectedPriceRange.value) {
-    products = products.filter(p =>
-      p.price >= selectedPriceRange.value.min &&
-      p.price <= selectedPriceRange.value.max
-    )
+  if (filters.minPrice !== null) {
+    products = products.filter(p => p.price >= filters.minPrice)
+  }
+  if (filters.maxPrice !== null) {
+    products = products.filter(p => p.price <= filters.maxPrice)
   }
 
-  // Storage filter
-  if (selectedStorage.value.length > 0) {
-    products = products.filter(p =>
-      p.storage && selectedStorage.value.includes(p.storage)
-    )
+  // Rating filter
+  if (filters.minRating) {
+    products = products.filter(p => p.rating >= parseFloat(filters.minRating))
   }
 
-  // Availability filters
-  if (showInStockOnly.value) {
+  // Stock filter
+  if (filters.inStock) {
     products = products.filter(p => p.inStock)
   }
 
-  if (showNewOnly.value) {
+  // New products filter
+  if (filters.isNew) {
     products = products.filter(p => p.isNew)
   }
 
-  if (showDiscountOnly.value) {
+  // Discount filter
+  if (filters.hasDiscount) {
     products = products.filter(p => p.discount && p.discount > 0)
   }
 
   // Sorting
-  switch (sortBy.value) {
+  const sortKey = showAdvancedSearch.value ? filters.sortBy : sortBy.value
+  switch (sortKey) {
     case 'name':
       products.sort((a, b) => a.name.localeCompare(b.name))
       break
@@ -346,6 +404,16 @@ const filteredProducts = computed(() => {
       break
     case 'rating':
       products.sort((a, b) => b.rating - a.rating)
+      break
+    case 'newest':
+      products.sort((a, b) => {
+        const aDate = new Date(a.createdAt || 0)
+        const bDate = new Date(b.createdAt || 0)
+        return bDate.getTime() - aDate.getTime()
+      })
+      break
+    case 'popular':
+      products.sort((a, b) => (b.reviewCount || 0) - (a.reviewCount || 0))
       break
     case 'newest':
       products.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0))
@@ -404,6 +472,43 @@ const clearFilters = () => {
   showNewOnly.value = false
   showDiscountOnly.value = false
   currentPage.value = 1
+}
+
+// Advanced search functions
+const toggleAdvancedSearch = () => {
+  showAdvancedSearch.value = !showAdvancedSearch.value
+  if (!showAdvancedSearch.value) {
+    // Reset advanced filters when closing
+    advancedFilters.value = {
+      search: '',
+      brand: '',
+      category: '',
+      sortBy: 'name',
+      minPrice: null,
+      maxPrice: null,
+      minRating: '',
+      inStock: false,
+      isNew: false,
+      hasDiscount: false
+    }
+  }
+}
+
+const handleAdvancedFiltersChanged = (filters: any) => {
+  advancedFilters.value = { ...filters }
+  currentPage.value = 1
+}
+
+// Product comparison functions
+const toggleComparison = (product: any) => {
+  const success = comparisonStore.toggleProduct(product)
+  if (!success && !comparisonStore.isInComparison(product.id)) {
+    alert('You can only compare up to 3 products at a time.')
+  }
+}
+
+const isInComparison = (productId: string) => {
+  return comparisonStore.isInComparison(productId)
 }
 
 // Initialize filters from URL params

@@ -16,14 +16,28 @@
         <span v-if="!product.inStock" class="badge bg-gray-500 text-white">Out of Stock</span>
       </div>
       
-      <!-- Wishlist Button -->
-      <button 
-        @click.stop="toggleWishlist"
-        class="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-        :class="{ 'text-red-500': isInWishlist, 'text-gray-400': !isInWishlist }"
-      >
-        <Heart class="w-5 h-5" :fill="isInWishlist ? 'currentColor' : 'none'" />
-      </button>
+      <!-- Action Buttons -->
+      <div class="absolute top-3 right-3 flex flex-col space-y-2">
+        <!-- Wishlist Button -->
+        <button
+          @click.stop="toggleWishlist"
+          class="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+          :class="{ 'text-red-500': isInWishlist, 'text-gray-400': !isInWishlist }"
+          title="Add to Wishlist"
+        >
+          <Heart class="w-5 h-5" :fill="isInWishlist ? 'currentColor' : 'none'" />
+        </button>
+
+        <!-- Comparison Button -->
+        <button
+          @click.stop="toggleComparison"
+          class="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+          :class="{ 'text-blue-500': isInComparison, 'text-gray-400': !isInComparison }"
+          title="Add to Comparison"
+        >
+          <BarChart3 class="w-5 h-5" :fill="isInComparison ? 'currentColor' : 'none'" />
+        </button>
+      </div>
       
       <!-- Quick View Button -->
       <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
@@ -114,9 +128,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Heart, Star } from 'lucide-vue-next'
+import { Heart, Star, BarChart3 } from 'lucide-vue-next'
 import { useCartStore } from '@/stores/cart'
 import { useWishlistStore } from '@/stores/wishlist'
+import { useComparisonStore } from '@/stores/comparison'
 
 interface Product {
   id: string
@@ -124,6 +139,7 @@ interface Product {
   brand: string
   price: number
   image: string
+  images: string[]
   rating: number
   reviewCount: number
   inStock: boolean
@@ -132,6 +148,11 @@ interface Product {
   storage?: string
   ram?: string
   colors?: string[]
+  category: string
+  description: string
+  specifications: Record<string, string>
+  features: string[]
+  createdAt?: string
 }
 
 interface Props {
@@ -141,8 +162,10 @@ interface Props {
 const props = defineProps<Props>()
 const cartStore = useCartStore()
 const wishlistStore = useWishlistStore()
+const comparisonStore = useComparisonStore()
 
 const isInWishlist = computed(() => wishlistStore.isInWishlist(props.product.id))
+const isInComparison = computed(() => comparisonStore.isInComparison(props.product.id))
 
 const discountedPrice = computed(() => {
   if (props.product.discount) {
@@ -176,6 +199,13 @@ const addToCart = () => {
 const quickView = () => {
   // Implement quick view modal
   console.log('Quick view:', props.product.id)
+}
+
+const toggleComparison = () => {
+  const success = comparisonStore.toggleProduct(props.product)
+  if (!success && !comparisonStore.isInComparison(props.product.id)) {
+    alert('You can only compare up to 3 products at a time.')
+  }
 }
 
 const getColorValue = (color: string): string => {

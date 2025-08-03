@@ -20,6 +20,7 @@ export interface Product {
   description: string
   specifications: Record<string, string>
   features: string[]
+  createdAt?: string
 }
 
 export const useProductsStore = defineStore('products', () => {

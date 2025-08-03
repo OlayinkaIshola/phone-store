@@ -57,6 +57,7 @@ interface Product {
   brand: string
   price: number
   image: string
+  images: string[]
   rating: number
   reviewCount: number
   inStock: boolean
@@ -65,6 +66,11 @@ interface Product {
   storage?: string
   ram?: string
   colors?: string[]
+  category: string
+  description: string
+  specifications: Record<string, string>
+  features: string[]
+  createdAt?: string
 }
 
 interface Props {
