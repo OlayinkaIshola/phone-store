@@ -76,6 +76,12 @@ const router = createRouter({
       name: 'order-confirmation',
       component: () => import('@/views/OrderConfirmationView.vue'),
       meta: { requiresAuth: false }
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('@/views/AdminDashboardView.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true }
     }
   ],
 })
@@ -91,6 +97,13 @@ router.beforeEach((to, from, next) => {
       name: 'auth',
       query: { redirect: to.fullPath }
     })
+    return
+  }
+
+  // Check if route requires admin access
+  if (to.meta.requiresAdmin && (!authStore.isAuthenticated || !authStore.user?.isAdmin)) {
+    // Redirect non-admin users to home page
+    next({ name: 'home' })
     return
   }
 

@@ -111,6 +111,16 @@
                 <span>Wishlist</span>
               </router-link>
 
+              <router-link
+                v-if="authStore.user?.isAdmin"
+                to="/admin"
+                @click="showUserMenu = false"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+              >
+                <Settings class="h-4 w-4" />
+                <span>Admin Dashboard</span>
+              </router-link>
+
               <button
                 @click="handleLogout"
                 class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
@@ -214,7 +224,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Search, Heart, ShoppingCart, Menu, ChevronDown, User, LogOut } from 'lucide-vue-next'
+import { Search, Heart, ShoppingCart, Menu, ChevronDown, User, LogOut, Settings } from 'lucide-vue-next'
 import MiniCart from '@/components/ui/MiniCart.vue'
 import { useCartStore } from '@/stores/cart'
 import { useWishlistStore } from '@/stores/wishlist'
