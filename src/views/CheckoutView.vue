@@ -347,10 +347,12 @@ import { useRouter } from 'vue-router'
 import { ChevronRight } from 'lucide-vue-next'
 import { useCartStore } from '@/stores/cart'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationsStore } from '@/stores/notifications'
 
 const router = useRouter()
 const cartStore = useCartStore()
 const authStore = useAuthStore()
+const notificationsStore = useNotificationsStore()
 
 // Nigerian states for the dropdown
 const nigerianStates = [
@@ -505,11 +507,30 @@ const processPayOnDelivery = async (orderData: any) => {
   }
 }
 
-const completeOrder = (orderData: any) => {
+const completeOrder = async (orderData: any) => {
   // Save order to localStorage (in a real app, this would be sent to a server)
   const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]')
   existingOrders.push(orderData)
   localStorage.setItem('orders', JSON.stringify(existingOrders))
+
+  // Send order confirmation email
+  try {
+    const customerName = `${checkoutForm.value.shipping.firstName} ${checkoutForm.value.shipping.lastName}`
+    const orderForEmail = {
+      ...orderData,
+      shippingAddress: checkoutForm.value.shipping,
+      userId: authStore.user?.id || 'guest'
+    }
+
+    await notificationsStore.sendOrderConfirmation(
+      orderData.customer.email,
+      customerName,
+      orderForEmail
+    )
+  } catch (error) {
+    console.error('Failed to send order confirmation email:', error)
+    // Don't block order completion if email fails
+  }
 
   // Clear cart
   cartStore.clearCart()

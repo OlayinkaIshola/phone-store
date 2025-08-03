@@ -355,6 +355,11 @@
             </div>
           </div>
 
+          <!-- Email Notifications -->
+          <div v-if="activeTab === 'emails'">
+            <EmailNotifications />
+          </div>
+
           <!-- Analytics -->
           <div v-if="activeTab === 'analytics'" class="space-y-6">
             <h2 class="text-2xl font-bold text-gray-900">Analytics & Reports</h2>
@@ -513,11 +518,12 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   Package, DollarSign, Smartphone, Users, Plus, Edit, Trash2,
-  BarChart3, ShoppingCart, Settings, Home, Search, Filter
+  BarChart3, ShoppingCart, Settings, Home, Search, Filter, Mail
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useProductsStore } from '@/stores/products'
 import ProductForm from '@/components/admin/ProductForm.vue'
+import EmailNotifications from '@/components/admin/EmailNotifications.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -536,6 +542,7 @@ const adminTabs = [
   { id: 'products', name: 'Products', icon: Smartphone },
   { id: 'orders', name: 'Orders', icon: ShoppingCart },
   { id: 'users', name: 'Users', icon: Users },
+  { id: 'emails', name: 'Email Notifications', icon: Mail },
   { id: 'analytics', name: 'Analytics', icon: BarChart3 },
   { id: 'settings', name: 'Settings', icon: Settings }
 ]

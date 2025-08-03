@@ -413,10 +413,12 @@ import {
   Mail, Phone, Eye, EyeOff, Loader2, AlertCircle, CheckCircle, X
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationsStore } from '@/stores/notifications'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+const notificationsStore = useNotificationsStore()
 
 // Reactive state
 const isLogin = ref(true)
@@ -595,13 +597,26 @@ const handleRegister = async () => {
   isLoading.value = true
 
   try {
-    await authStore.register({
+    const result = await authStore.register({
       firstName: registerForm.value.firstName,
       lastName: registerForm.value.lastName,
       email: registerForm.value.email,
       phone: registerForm.value.phone,
       password: registerForm.value.password
     })
+
+    // Send welcome email
+    try {
+      const customerName = `${registerForm.value.firstName} ${registerForm.value.lastName}`
+      await notificationsStore.sendWelcomeEmail(
+        registerForm.value.email,
+        customerName,
+        result.user.id
+      )
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError)
+      // Don't block registration if email fails
+    }
 
     successMessage.value = 'Account created successfully! Please check your email to verify your account.'
 
