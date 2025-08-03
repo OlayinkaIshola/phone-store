@@ -355,55 +355,19 @@
             </div>
           </div>
 
+          <!-- Inventory Management -->
+          <div v-if="activeTab === 'inventory'">
+            <InventoryManagement />
+          </div>
+
           <!-- Email Notifications -->
           <div v-if="activeTab === 'emails'">
             <EmailNotifications />
           </div>
 
           <!-- Analytics -->
-          <div v-if="activeTab === 'analytics'" class="space-y-6">
-            <h2 class="text-2xl font-bold text-gray-900">Analytics & Reports</h2>
-
-            <!-- Analytics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div class="bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Sales This Month</h3>
-                <p class="text-3xl font-bold text-green-600">₦{{ analytics.monthlySales.toLocaleString() }}</p>
-                <p class="text-sm text-gray-500 mt-2">+12% from last month</p>
-              </div>
-
-              <div class="bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Orders This Month</h3>
-                <p class="text-3xl font-bold text-blue-600">{{ analytics.monthlyOrders }}</p>
-                <p class="text-sm text-gray-500 mt-2">+8% from last month</p>
-              </div>
-
-              <div class="bg-white rounded-lg shadow-sm p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Average Order Value</h3>
-                <p class="text-3xl font-bold text-purple-600">₦{{ analytics.averageOrderValue.toLocaleString() }}</p>
-                <p class="text-sm text-gray-500 mt-2">+5% from last month</p>
-              </div>
-            </div>
-
-            <!-- Top Products -->
-            <div class="bg-white rounded-lg shadow-sm p-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">Top Selling Products</h3>
-              <div class="space-y-4">
-                <div v-for="product in analytics.topProducts" :key="product.id" class="flex items-center justify-between">
-                  <div class="flex items-center space-x-3">
-                    <img :src="product.image" :alt="product.name" class="w-10 h-10 object-cover rounded-md">
-                    <div>
-                      <p class="text-sm font-medium text-gray-900">{{ product.name }}</p>
-                      <p class="text-sm text-gray-500">{{ product.brand }}</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <p class="text-sm font-medium text-gray-900">{{ product.soldCount }} sold</p>
-                    <p class="text-sm text-gray-500">₦{{ product.revenue.toLocaleString() }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div v-if="activeTab === 'analytics'">
+            <AnalyticsCharts />
           </div>
 
           <!-- Settings -->
@@ -518,12 +482,14 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   Package, DollarSign, Smartphone, Users, Plus, Edit, Trash2,
-  BarChart3, ShoppingCart, Settings, Home, Search, Filter, Mail
+  BarChart3, ShoppingCart, Settings, Home, Search, Filter, Mail, Warehouse
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useProductsStore } from '@/stores/products'
 import ProductForm from '@/components/admin/ProductForm.vue'
 import EmailNotifications from '@/components/admin/EmailNotifications.vue'
+import AnalyticsCharts from '@/components/admin/AnalyticsCharts.vue'
+import InventoryManagement from '@/components/admin/InventoryManagement.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -542,6 +508,7 @@ const adminTabs = [
   { id: 'products', name: 'Products', icon: Smartphone },
   { id: 'orders', name: 'Orders', icon: ShoppingCart },
   { id: 'users', name: 'Users', icon: Users },
+  { id: 'inventory', name: 'Inventory', icon: Warehouse },
   { id: 'emails', name: 'Email Notifications', icon: Mail },
   { id: 'analytics', name: 'Analytics', icon: BarChart3 },
   { id: 'settings', name: 'Settings', icon: Settings }
