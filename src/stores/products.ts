@@ -255,20 +255,87 @@ export const useProductsStore = defineStore('products', () => {
 
   const searchProducts = (query: string) => {
     const searchTerm = query.toLowerCase()
-    return products.value.filter(p => 
+    return products.value.filter(p =>
       p.name.toLowerCase().includes(searchTerm) ||
       p.brand.toLowerCase().includes(searchTerm) ||
       p.category.toLowerCase().includes(searchTerm)
     )
   }
 
+  const addProduct = (product: Omit<Product, 'id'>) => {
+    const newProduct: Product = {
+      ...product,
+      id: Date.now().toString()
+    }
+    products.value.push(newProduct)
+    saveToLocalStorage()
+    return newProduct
+  }
+
+  const updateProduct = (id: string, updates: Partial<Product>) => {
+    const index = products.value.findIndex(p => p.id === id)
+    if (index !== -1) {
+      products.value[index] = { ...products.value[index], ...updates }
+      saveToLocalStorage()
+      return products.value[index]
+    }
+    return null
+  }
+
+  const deleteProduct = (id: string) => {
+    const index = products.value.findIndex(p => p.id === id)
+    if (index !== -1) {
+      const deletedProduct = products.value.splice(index, 1)[0]
+      saveToLocalStorage()
+      return deletedProduct
+    }
+    return null
+  }
+
+  const saveToLocalStorage = () => {
+    localStorage.setItem('products', JSON.stringify(products.value))
+  }
+
+  const loadFromLocalStorage = () => {
+    const stored = localStorage.getItem('products')
+    if (stored) {
+      try {
+        const parsedProducts = JSON.parse(stored)
+        if (Array.isArray(parsedProducts) && parsedProducts.length > 0) {
+          products.value = parsedProducts
+        }
+      } catch (error) {
+        console.error('Error loading products from localStorage:', error)
+      }
+    }
+  }
+
+  // Load products from localStorage on store initialization
+  loadFromLocalStorage()
+
+  const categories = computed(() => {
+    const uniqueCategories = [...new Set(products.value.map(p => p.category))]
+    return uniqueCategories
+  })
+
+  const brands = computed(() => {
+    const uniqueBrands = [...new Set(products.value.map(p => p.brand))]
+    return uniqueBrands
+  })
+
   return {
     products,
     featuredProducts,
     bestSellers,
+    categories,
+    brands,
     getProductById,
     getProductsByBrand,
     getProductsByCategory,
-    searchProducts
+    searchProducts,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    saveToLocalStorage
   }
 })

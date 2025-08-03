@@ -137,7 +137,7 @@
             <div class="flex items-center justify-between">
               <h2 class="text-2xl font-bold text-gray-900">Products Management</h2>
               <button
-                @click="showAddProductModal = true"
+                @click="openAddProductForm"
                 class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Plus class="w-4 h-4 inline mr-2" />
@@ -203,14 +203,16 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                         <button
-                          @click="editProduct(product)"
-                          class="text-blue-600 hover:text-blue-700"
+                          @click="openEditProductForm(product)"
+                          class="text-blue-600 hover:text-blue-700 mr-3"
+                          title="Edit Product"
                         >
                           <Edit class="w-4 h-4" />
                         </button>
                         <button
-                          @click="deleteProduct(product.id)"
+                          @click="deleteProductHandler(product.id)"
                           class="text-red-600 hover:text-red-800"
+                          title="Delete Product"
                         >
                           <Trash2 class="w-4 h-4" />
                         </button>
@@ -495,18 +497,27 @@
         </div>
       </div>
     </div>
+
+    <!-- Product Form Modal -->
+    <ProductForm
+      v-if="showProductForm"
+      :product="editingProduct"
+      @close="closeProductForm"
+      @saved="handleProductSaved"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { 
+import {
   Package, DollarSign, Smartphone, Users, Plus, Edit, Trash2,
-  BarChart3, ShoppingCart, Settings, Home
+  BarChart3, ShoppingCart, Settings, Home, Search, Filter
 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth'
 import { useProductsStore } from '@/stores/products'
+import ProductForm from '@/components/admin/ProductForm.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -545,7 +556,35 @@ const recentOrders = ref<any[]>([])
 // Product management
 const productSearch = ref('')
 const productFilter = ref('')
-const showAddProductModal = ref(false)
+const showProductForm = ref(false)
+const editingProduct = ref(null)
+
+const openAddProductForm = () => {
+  editingProduct.value = null
+  showProductForm.value = true
+}
+
+const openEditProductForm = (product: any) => {
+  editingProduct.value = product
+  showProductForm.value = true
+}
+
+const closeProductForm = () => {
+  showProductForm.value = false
+  editingProduct.value = null
+}
+
+const handleProductSaved = () => {
+  // Product is automatically saved in the store
+  // Just close the form
+  closeProductForm()
+}
+
+const deleteProductHandler = (productId: string) => {
+  if (confirm('Are you sure you want to delete this product?')) {
+    productStore.deleteProduct(productId)
+  }
+}
 
 // Order management
 const orderStatusFilter = ref('')
