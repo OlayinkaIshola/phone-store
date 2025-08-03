@@ -34,7 +34,7 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: () => import('@/views/CheckoutView.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/auth',
@@ -70,6 +70,12 @@ const router = createRouter({
       path: '/deals',
       name: 'deals',
       component: () => import('@/views/DealsView.vue')
+    },
+    {
+      path: '/order-confirmation/:id',
+      name: 'order-confirmation',
+      component: () => import('@/views/OrderConfirmationView.vue'),
+      meta: { requiresAuth: false }
     }
   ],
 })
