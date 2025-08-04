@@ -1,31 +1,32 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <!-- Page Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-secondary mb-4">Shopping Cart</h1>
-      <nav class="text-sm text-gray-600">
-        <router-link to="/" class="hover:text-accent-blue">Home</router-link>
-        <ChevronRight class="w-4 h-4 inline mx-2" />
-        <span class="text-gray-900">Shopping Cart</span>
-      </nav>
-    </div>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Shopping Cart</h1>
+        <nav class="text-sm text-gray-600 dark:text-gray-400">
+          <router-link to="/" class="hover:text-blue-600 dark:hover:text-blue-400">Home</router-link>
+          <ChevronRight class="w-4 h-4 inline mx-2" />
+          <span class="text-gray-900 dark:text-white">Shopping Cart</span>
+        </nav>
+      </div>
 
-    <div v-if="cartStore.items.length > 0" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Cart Items -->
-      <div class="lg:col-span-2">
-        <div class="bg-white rounded-lg shadow-sm border">
-          <!-- Cart Header -->
-          <div class="p-6 border-b border-gray-200">
-            <div class="flex items-center justify-between">
-              <h2 class="text-xl font-semibold">Cart Items ({{ cartStore.totalItems }})</h2>
-              <button
-                @click="clearCart"
-                class="text-red-600 hover:text-red-700 text-sm font-medium"
-              >
-                Clear Cart
-              </button>
+      <div v-if="cartStore.items.length > 0" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Cart Items -->
+        <div class="lg:col-span-2">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-colors">
+            <!-- Cart Header -->
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div class="flex items-center justify-between">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Cart Items ({{ cartStore.totalItems }})</h2>
+                <button
+                  @click="clearCart"
+                  class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm font-medium"
+                >
+                  Clear Cart
+                </button>
+              </div>
             </div>
-          </div>
 
           <!-- Cart Items List -->
           <div class="divide-y divide-gray-200">
@@ -51,7 +52,7 @@
                       <h3 class="text-lg font-semibold text-gray-900 mb-1">
                         <router-link
                           :to="`/product/${item.id}`"
-                          class="hover:text-accent-blue transition-colors"
+                          class="hover:text-blue-600 transition-colors"
                         >
                           {{ item.name }}
                         </router-link>
@@ -232,6 +233,7 @@
       <router-link to="/shop" class="btn-primary">
         Start Shopping
       </router-link>
+    </div>
     </div>
   </div>
 </template>

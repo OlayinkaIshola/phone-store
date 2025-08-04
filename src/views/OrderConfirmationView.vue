@@ -1,32 +1,32 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors">
     <div class="container mx-auto px-4 max-w-4xl">
-      <div v-if="order" class="bg-white rounded-lg shadow-sm p-8">
+      <div v-if="order" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 transition-colors">
         <!-- Success Header -->
         <div class="text-center mb-8">
-          <div class="mx-auto flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-            <CheckCircle class="w-8 h-8 text-green-600" />
+          <div class="mx-auto flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+            <CheckCircle class="w-8 h-8 text-green-600 dark:text-green-400" />
           </div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
-          <p class="text-gray-600">Thank you for your purchase. Your order has been received and is being processed.</p>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Order Confirmed!</h1>
+          <p class="text-gray-600 dark:text-gray-300">Thank you for your purchase. Your order has been received and is being processed.</p>
         </div>
 
         <!-- Order Details -->
-        <div class="border-t border-gray-200 pt-8">
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div>
-              <h2 class="text-lg font-semibold text-gray-900 mb-4">Order Information</h2>
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Order Information</h2>
               <div class="space-y-2 text-sm">
                 <div class="flex justify-between">
-                  <span class="text-gray-600">Order Number:</span>
-                  <span class="font-medium text-gray-900">{{ order.id }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">Order Number:</span>
+                  <span class="font-medium text-gray-900 dark:text-white">{{ order.id }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600">Order Date:</span>
-                  <span class="font-medium text-gray-900">{{ formatDate(order.createdAt) }}</span>
+                  <span class="text-gray-600 dark:text-gray-400">Order Date:</span>
+                  <span class="font-medium text-gray-900 dark:text-white">{{ formatDate(order.createdAt) }}</span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-600">Status:</span>
+                  <span class="text-gray-600 dark:text-gray-400">Status:</span>
                   <span class="font-medium" :class="getStatusColor(order.status)">{{ getStatusText(order.status) }}</span>
                 </div>
                 <div class="flex justify-between">

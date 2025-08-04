@@ -1,36 +1,47 @@
 <template>
-  <div>
+  <div class="min-h-screen">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-secondary to-gray-800 text-white py-20">
-      <div class="container mx-auto px-4">
+    <section class="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-secondary dark:to-gray-800 text-white py-20 overflow-hidden transition-colors">
+      <!-- Animated Background Elements -->
+      <div class="absolute top-10 left-10 w-20 h-20 bg-accent-blue rounded-full opacity-20 animate-float"></div>
+      <div class="absolute top-32 right-20 w-16 h-16 bg-white rounded-full opacity-10 animate-pulse"></div>
+      <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-accent-blue rounded-full opacity-15 animate-bounce"></div>
+      <div class="absolute bottom-32 right-1/3 w-8 h-8 bg-gray-300 rounded-full opacity-20 animate-float"></div>
+
+      <div class="container mx-auto px-4 relative z-10">
         <div class="flex flex-col lg:flex-row items-center">
-          <div class="lg:w-1/2 mb-10 lg:mb-0">
-            <h1 class="text-4xl lg:text-6xl font-bold mb-6">
-              Nigeria's #1 
-              <span class="text-accent-blue">Phone Store</span>
+          <div class="lg:w-1/2 mb-10 lg:mb-0 hero-text">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-6 animate-slide-in-left">
+              Nigeria's #1
+              <span class="text-accent-blue animate-glow">Phone Store</span>
             </h1>
-            <p class="text-xl mb-8 text-gray-300">
-              Discover the latest smartphones, tablets, and accessories with unbeatable prices and genuine warranty.
+            <p class="text-xl mb-8 text-gray-300 animate-fade-in">
+              Discover the latest smartphones, tablets, and accessories with unbeatable prices and genuine warranty. 🇳🇬
             </p>
-            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <router-link to="/shop" class="btn-primary text-center">
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 stagger-animation">
+              <router-link to="/shop" class="btn-primary text-center hover-lift hover-glow transition-all duration-300">
+                <ShoppingBag class="w-5 h-5 mr-2 inline" />
                 Shop Now
               </router-link>
-              <router-link to="/deals" class="btn-outline text-center">
+              <router-link to="/deals" class="btn-outline text-center hover-lift transition-all duration-300">
+                <Zap class="w-5 h-5 mr-2 inline" />
                 View Deals
               </router-link>
             </div>
           </div>
-          <div class="lg:w-1/2">
+          <div class="lg:w-1/2 hero-image">
             <div class="relative">
-              <img 
-                src="/images/iphone-15-pro.webp" 
-                alt="Latest iPhone" 
-                class="w-full max-w-md mx-auto rounded-lg shadow-2xl"
+              <img
+                src="/images/Free-iPhone-16-Pro-Max.jpg"
+                alt="Latest iPhone - Premium Quality Smartphones"
+                class="w-full max-w-md mx-auto rounded-lg shadow-2xl hover-scale transition-all duration-500 product-card"
+                loading="lazy"
               >
-              <div class="absolute -top-4 -right-4 bg-red-500 text-white px-4 py-2 rounded-full font-bold">
+              <div class="absolute -top-4 -right-4 bg-red-500 text-white px-4 py-2 rounded-full font-bold animate-bounce">
                 New!
               </div>
+              <div class="absolute top-4 left-4 w-32 h-32 bg-accent-blue rounded-full opacity-20 animate-pulse"></div>
+              <div class="absolute bottom-4 right-4 w-24 h-24 bg-white rounded-full opacity-10 animate-float"></div>
             </div>
           </div>
         </div>
@@ -38,36 +49,43 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-gray-50 dark:bg-gray-900 transition-colors">
       <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="text-center">
-            <div class="bg-accent-blue text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div class="text-center mb-12 animate-fade-in">
+          <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose Us?</h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300">Experience the best phone shopping in Nigeria</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-animation">
+          <div class="text-center feature-card bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover-lift transition-colors">
+            <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 hover-scale">
               <Truck class="w-8 h-8" />
             </div>
-            <h3 class="text-xl font-semibold mb-2">Free Shipping</h3>
-            <p class="text-gray-600">Free delivery on orders above ₦50,000 within Lagos</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Free Shipping</h3>
+            <p class="text-gray-600 dark:text-gray-300">Free delivery on orders above ₦50,000 within Lagos and Abuja</p>
+            <div class="mt-4 text-sm text-blue-600 dark:text-blue-400 font-medium">🚚 Fast & Reliable</div>
           </div>
-          <div class="text-center">
-            <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="text-center feature-card bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover-lift transition-colors">
+            <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 hover-scale">
               <Shield class="w-8 h-8" />
             </div>
-            <h3 class="text-xl font-semibold mb-2">Genuine Products</h3>
-            <p class="text-gray-600">100% authentic products with official warranty</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Genuine Products</h3>
+            <p class="text-gray-600 dark:text-gray-300">100% authentic products with official warranty and quality guarantee</p>
+            <div class="mt-4 text-sm text-green-600 dark:text-green-400 font-medium">🛡️ Verified Authentic</div>
           </div>
-          <div class="text-center">
-            <div class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="text-center feature-card bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover-lift transition-colors">
+            <div class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 hover-scale">
               <Headphones class="w-8 h-8" />
             </div>
-            <h3 class="text-xl font-semibold mb-2">24/7 Support</h3>
-            <p class="text-gray-600">Round-the-clock customer support via WhatsApp</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">24/7 Support</h3>
+            <p class="text-gray-600 dark:text-gray-300">Round-the-clock customer support via WhatsApp and phone</p>
+            <div class="mt-4 text-sm text-purple-600 dark:text-purple-400 font-medium">📞 Always Available</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Featured Products -->
-    <section class="py-16">
+    <section class="py-16 bg-white dark:bg-gray-800 transition-colors">
       <div class="container mx-auto px-4">
         <ProductCarousel
           title="Featured Products"
@@ -77,7 +95,7 @@
     </section>
 
     <!-- Best Sellers -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-gray-50 dark:bg-gray-900 transition-colors">
       <div class="container mx-auto px-4">
         <ProductCarousel
           title="Best Sellers"
@@ -87,35 +105,35 @@
     </section>
 
     <!-- Categories Section -->
-    <section class="py-16">
+    <section class="py-16 bg-white dark:bg-gray-800 transition-colors">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-secondary mb-4">Shop by Brand</h2>
-          <p class="text-gray-600">Choose from our wide selection of premium brands</p>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Shop by Brand</h2>
+          <p class="text-gray-600 dark:text-gray-300">Choose from our wide selection of premium brands</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <router-link to="/shop?brand=apple" class="group">
-            <div class="bg-white rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+          <router-link to="/shop?brand=Apple" class="group">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 text-center hover:shadow-lg transition-all">
               <img src="/images/apple-iphone-16-pro.jpg" alt="iPhone" class="w-32 h-32 object-contain mx-auto mb-4">
-              <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-blue transition-colors">iPhone</h3>
-              <p class="text-gray-600">Premium Apple smartphones</p>
+              <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">iPhone</h3>
+              <p class="text-gray-600 dark:text-gray-300">Premium Apple smartphones</p>
             </div>
           </router-link>
 
-          <router-link to="/shop?brand=samsung" class="group">
-            <div class="bg-white rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+          <router-link to="/shop?brand=Samsung" class="group">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 text-center hover:shadow-lg transition-all">
               <img src="/images/samsung-galaxy-s25-ultra-sm-s938.jpg" alt="Samsung" class="w-32 h-32 object-contain mx-auto mb-4">
-              <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-blue transition-colors">Samsung</h3>
-              <p class="text-gray-600">Galaxy series smartphones</p>
+              <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Samsung</h3>
+              <p class="text-gray-600 dark:text-gray-300">Galaxy series smartphones</p>
             </div>
           </router-link>
 
-          <router-link to="/shop?brand=tecno" class="group">
-            <div class="bg-white rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+          <router-link to="/shop?brand=Tecno" class="group">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 text-center hover:shadow-lg transition-all">
               <img src="/images/tecno-phantom-v-fold2-.jpg" alt="Tecno" class="w-32 h-32 object-contain mx-auto mb-4">
-              <h3 class="text-xl font-semibold mb-2 group-hover:text-accent-blue transition-colors">Tecno</h3>
-              <p class="text-gray-600">Affordable quality phones</p>
+              <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Tecno</h3>
+              <p class="text-gray-600 dark:text-gray-300">Affordable quality phones</p>
             </div>
           </router-link>
         </div>
@@ -123,7 +141,7 @@
     </section>
 
     <!-- Newsletter Section -->
-    <section class="py-16 bg-accent-blue text-white">
+    <section class="py-16 bg-blue-600 dark:bg-gray-900 text-white transition-colors">
       <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
         <p class="text-xl mb-8 opacity-90">Get the latest deals and product launches delivered to your inbox</p>
@@ -136,7 +154,7 @@
           >
           <button
             @click="subscribeNewsletter"
-            class="bg-secondary text-white px-6 py-3 rounded-r-lg hover:bg-gray-700 transition-colors"
+            class="bg-gray-800 dark:bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-gray-700 dark:hover:bg-blue-700 transition-colors"
           >
             Subscribe
           </button>
@@ -148,7 +166,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Truck, Shield, Headphones } from 'lucide-vue-next'
+import { Truck, Shield, Headphones, ShoppingBag, Zap } from 'lucide-vue-next'
 import ProductCarousel from '@/components/ui/ProductCarousel.vue'
 import { useProductsStore } from '@/stores/products'
 

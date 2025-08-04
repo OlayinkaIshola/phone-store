@@ -1,7 +1,7 @@
 <template>
-  <header class="bg-white shadow-md sticky top-0 z-50">
+  <header class="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 transition-colors">
     <!-- Top Bar -->
-    <div class="bg-secondary text-white py-2">
+    <div class="bg-secondary dark:bg-gray-800 text-white py-2 transition-colors">
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center text-sm">
           <div class="flex items-center space-x-4">
@@ -11,11 +11,11 @@
           <div class="flex items-center space-x-4">
             <span>Free shipping on orders over ₦50,000</span>
             <div class="flex items-center space-x-2">
-              <button @click="toggleAuth" class="hover:text-accent-blue transition-colors">
+              <button @click="toggleAuth" class="hover:text-blue-600 transition-colors">
                 {{ user ? 'Account' : 'Login' }}
               </button>
               <span v-if="!user">|</span>
-              <button v-if="!user" @click="toggleAuth" class="hover:text-accent-blue transition-colors">
+              <button v-if="!user" @click="toggleAuth" class="hover:text-blue-600 transition-colors">
                 Register
               </button>
             </div>
@@ -43,13 +43,13 @@
               v-model="searchQuery"
               type="text"
               placeholder="Search for phones, brands, models..."
-              class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-transparent outline-none"
+              class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none"
               @keyup.enter="performSearch"
             >
             <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <button
               @click="performSearch"
-              class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-accent-blue text-white px-4 py-1.5 rounded-md hover:bg-blue-600 transition-colors"
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-4 py-1.5 rounded-md hover:bg-blue-700 transition-colors"
             >
               Search
             </button>
@@ -135,21 +135,31 @@
           <div v-else class="hidden md:flex items-center space-x-2">
             <router-link
               to="/auth"
-              class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-accent-blue transition-colors"
+              class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
             >
               Login
             </router-link>
             <router-link
               to="/auth?mode=register"
-              class="px-4 py-2 text-sm font-medium bg-accent-blue text-white rounded-md hover:bg-blue-700 transition-colors"
+              class="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
               Sign Up
             </router-link>
           </div>
 
+          <!-- Dark Mode Toggle -->
+          <button
+            @click="toggleDarkMode"
+            class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            :title="isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          >
+            <Sun v-if="isDarkMode" class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+            <Moon v-else class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          </button>
+
           <!-- Mobile Menu Toggle -->
-          <button @click="toggleMobileMenu" class="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <Menu class="w-6 h-6 text-gray-700" />
+          <button @click="toggleMobileMenu" class="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+            <Menu class="w-6 h-6 text-gray-700 dark:text-gray-300" />
           </button>
         </div>
       </div>
@@ -171,9 +181,9 @@
                 <div class="p-4">
                   <h3 class="font-semibold text-gray-900 mb-3">Shop by Brand</h3>
                   <div class="space-y-2">
-                    <router-link to="/shop?brand=iphone" class="block text-gray-700 hover:text-accent-blue transition-colors">iPhone</router-link>
-                    <router-link to="/shop?brand=samsung" class="block text-gray-700 hover:text-accent-blue transition-colors">Samsung</router-link>
-                    <router-link to="/shop?brand=tecno" class="block text-gray-700 hover:text-accent-blue transition-colors">Tecno</router-link>
+                    <router-link to="/shop?brand=Apple" class="block text-gray-700 hover:text-blue-600 transition-colors">iPhone</router-link>
+                    <router-link to="/shop?brand=Samsung" class="block text-gray-700 hover:text-blue-600 transition-colors">Samsung</router-link>
+                    <router-link to="/shop?brand=Tecno" class="block text-gray-700 hover:text-blue-600 transition-colors">Tecno</router-link>
                   </div>
                 </div>
               </div>
@@ -186,7 +196,7 @@
           <!-- Categories Quick Access -->
           <div class="hidden md:flex items-center space-x-4 py-4">
             <span class="text-sm text-gray-600">Quick Access:</span>
-            <router-link to="/shop?category=latest" class="text-sm bg-accent-blue text-white px-3 py-1 rounded-full hover:bg-blue-600 transition-colors">
+            <router-link to="/shop?category=latest" class="text-sm bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 transition-colors">
               Latest
             </router-link>
             <router-link to="/shop?category=trending" class="text-sm bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition-colors">
@@ -201,20 +211,20 @@
     <div v-if="showMobileMenu" class="md:hidden bg-white border-t border-gray-200 slide-in">
       <div class="container mx-auto px-4 py-4">
         <div class="space-y-4">
-          <router-link to="/" class="block py-2 text-gray-700 hover:text-accent-blue transition-colors" @click="closeMobileMenu">Home</router-link>
+          <router-link to="/" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors" @click="closeMobileMenu">Home</router-link>
           <div>
-            <button @click="toggleShopMenu" class="flex items-center justify-between w-full py-2 text-gray-700 hover:text-accent-blue transition-colors">
+            <button @click="toggleShopMenu" class="flex items-center justify-between w-full py-2 text-gray-700 hover:text-blue-600 transition-colors">
               Shop <ChevronDown class="w-4 h-4" :class="{ 'rotate-180': showShopMenu }" />
             </button>
             <div v-if="showShopMenu" class="ml-4 mt-2 space-y-2">
-              <router-link to="/shop?brand=iphone" class="block py-1 text-gray-600 hover:text-accent-blue transition-colors" @click="closeMobileMenu">iPhone</router-link>
-              <router-link to="/shop?brand=samsung" class="block py-1 text-gray-600 hover:text-accent-blue transition-colors" @click="closeMobileMenu">Samsung</router-link>
-              <router-link to="/shop?brand=tecno" class="block py-1 text-gray-600 hover:text-accent-blue transition-colors" @click="closeMobileMenu">Tecno</router-link>
+              <router-link to="/shop?brand=Apple" class="block py-1 text-gray-600 hover:text-blue-600 transition-colors" @click="closeMobileMenu">iPhone</router-link>
+              <router-link to="/shop?brand=Samsung" class="block py-1 text-gray-600 hover:text-blue-600 transition-colors" @click="closeMobileMenu">Samsung</router-link>
+              <router-link to="/shop?brand=Tecno" class="block py-1 text-gray-600 hover:text-blue-600 transition-colors" @click="closeMobileMenu">Tecno</router-link>
             </div>
           </div>
-          <router-link to="/deals" class="block py-2 text-gray-700 hover:text-accent-blue transition-colors" @click="closeMobileMenu">Deals</router-link>
-          <router-link to="/about" class="block py-2 text-gray-700 hover:text-accent-blue transition-colors" @click="closeMobileMenu">About</router-link>
-          <router-link to="/contact" class="block py-2 text-gray-700 hover:text-accent-blue transition-colors" @click="closeMobileMenu">Contact</router-link>
+          <router-link to="/deals" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors" @click="closeMobileMenu">Deals</router-link>
+          <router-link to="/about" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors" @click="closeMobileMenu">About</router-link>
+          <router-link to="/contact" class="block py-2 text-gray-700 hover:text-blue-600 transition-colors" @click="closeMobileMenu">Contact</router-link>
         </div>
       </div>
     </div>
@@ -224,7 +234,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Search, Heart, ShoppingCart, Menu, ChevronDown, User, LogOut, Settings } from 'lucide-vue-next'
+import { Search, Heart, ShoppingCart, Menu, ChevronDown, User, LogOut, Settings, Sun, Moon } from 'lucide-vue-next'
 import MiniCart from '@/components/ui/MiniCart.vue'
 import { useCartStore } from '@/stores/cart'
 import { useWishlistStore } from '@/stores/wishlist'
@@ -238,6 +248,31 @@ const authStore = useAuthStore()
 const searchQuery = ref('')
 const showMobileMenu = ref(false)
 const showShopMenu = ref(false)
+const isDarkMode = ref(false)
+
+// Dark mode functionality
+const toggleDarkMode = () => {
+  isDarkMode.value = !isDarkMode.value
+  if (isDarkMode.value) {
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('darkMode', 'true')
+  } else {
+    document.documentElement.classList.remove('dark')
+    localStorage.setItem('darkMode', 'false')
+  }
+}
+
+// Initialize dark mode from localStorage
+const initializeDarkMode = () => {
+  const savedMode = localStorage.getItem('darkMode')
+  if (savedMode === 'true') {
+    isDarkMode.value = true
+    document.documentElement.classList.add('dark')
+  }
+}
+
+// Initialize on component mount
+initializeDarkMode()
 const showUserMenu = ref(false)
 
 const cartCount = computed(() => cartStore.itemCount)

@@ -1,12 +1,12 @@
 <template>
-  <div class="card group cursor-pointer" @click="$router.push(`/product/${product.id}`)">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 group cursor-pointer" @click="$router.push(`/product/${product.id}`)">
     <div class="relative overflow-hidden rounded-t-lg">
-      <img 
-        :src="product.image" 
-        :alt="product.name" 
-        class="w-full h-64 object-contain bg-gray-50 group-hover:scale-105 transition-transform duration-300"
+      <img
+        :src="product.image"
+        :alt="product.name"
+        class="w-full h-64 object-contain bg-gray-50 dark:bg-gray-700 group-hover:scale-105 transition-transform duration-300"
       >
-      
+
       <!-- Badges -->
       <div class="absolute top-3 left-3 space-y-2">
         <span v-if="product.isNew" class="badge bg-green-500 text-white">New</span>
@@ -15,14 +15,14 @@
         </span>
         <span v-if="!product.inStock" class="badge bg-gray-500 text-white">Out of Stock</span>
       </div>
-      
+
       <!-- Action Buttons -->
       <div class="absolute top-3 right-3 flex flex-col space-y-2">
         <!-- Wishlist Button -->
         <button
           @click.stop="toggleWishlist"
-          class="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-          :class="{ 'text-red-500': isInWishlist, 'text-gray-400': !isInWishlist }"
+          class="p-2 bg-white dark:bg-gray-700 rounded-full shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+          :class="{ 'text-red-500': isInWishlist, 'text-gray-400 dark:text-gray-500': !isInWishlist }"
           title="Add to Wishlist"
         >
           <Heart class="w-5 h-5" :fill="isInWishlist ? 'currentColor' : 'none'" />
@@ -73,7 +73,7 @@
       <!-- Price -->
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-2">
-          <span class="text-xl font-bold text-accent-blue">
+          <span class="text-xl font-bold text-blue-600">
             ₦{{ discountedPrice.toLocaleString() }}
           </span>
           <span v-if="product.discount" class="text-sm text-gray-500 line-through">
@@ -116,8 +116,8 @@
         @click.stop="addToCart"
         :disabled="!product.inStock"
         class="w-full py-2 px-4 rounded-lg font-medium transition-colors"
-        :class="product.inStock 
-          ? 'bg-accent-blue text-white hover:bg-blue-600' 
+        :class="product.inStock
+          ? 'bg-blue-600 text-white hover:bg-blue-700'
           : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
       >
         {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}

@@ -1,21 +1,21 @@
 <template>
   <div class="relative">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-secondary">{{ title }}</h2>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ title }}</h2>
       <div class="flex space-x-2">
-        <button 
+        <button
           @click="scrollLeft"
-          class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+          class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           :disabled="scrollPosition <= 0"
         >
-          <ChevronLeft class="w-5 h-5" />
+          <ChevronLeft class="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button>
-        <button 
+        <button
           @click="scrollRight"
-          class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+          class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           :disabled="scrollPosition >= maxScroll"
         >
-          <ChevronRight class="w-5 h-5" />
+          <ChevronRight class="w-5 h-5 text-gray-600 dark:text-gray-300" />
         </button>
       </div>
     </div>

@@ -1,23 +1,24 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <!-- Page Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-secondary mb-4">My Wishlist</h1>
-      <nav class="text-sm text-gray-600">
-        <router-link to="/" class="hover:text-accent-blue">Home</router-link>
-        <ChevronRight class="w-4 h-4 inline mx-2" />
-        <span class="text-gray-900">Wishlist</span>
-      </nav>
-    </div>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">My Wishlist</h1>
+        <nav class="text-sm text-gray-600 dark:text-gray-400">
+          <router-link to="/" class="hover:text-blue-600 dark:hover:text-blue-400">Home</router-link>
+          <ChevronRight class="w-4 h-4 inline mx-2" />
+          <span class="text-gray-900 dark:text-white">Wishlist</span>
+        </nav>
+      </div>
 
-    <div v-if="wishlistStore.items.length > 0">
-      <!-- Wishlist Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-        <div>
-          <p class="text-gray-600">
-            {{ wishlistStore.items.length }} {{ wishlistStore.items.length === 1 ? 'item' : 'items' }} in your wishlist
-          </p>
-        </div>
+      <div v-if="wishlistStore.items.length > 0">
+        <!-- Wishlist Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div>
+            <p class="text-gray-600 dark:text-gray-400">
+              {{ wishlistStore.items.length }} {{ wishlistStore.items.length === 1 ? 'item' : 'items' }} in your wishlist
+            </p>
+          </div>
         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
           <button
             @click="addAllToCart"
@@ -149,6 +150,7 @@
       <router-link to="/shop" class="btn-primary">
         Start Shopping
       </router-link>
+    </div>
     </div>
   </div>
 </template>

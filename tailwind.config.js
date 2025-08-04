@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -38,6 +39,8 @@ export default {
           blue: '#007AFF',
           DEFAULT: '#A2AAAD',
         },
+        'accent-blue': '#007AFF',
+        'accent-silver': '#A2AAAD',
         text: {
           primary: '#121212',
           secondary: '#333333',

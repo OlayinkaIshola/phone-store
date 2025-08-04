@@ -1,8 +1,9 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <!-- Page Header -->
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-secondary mb-4">Shop</h1>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Shop</h1>
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <!-- Search Bar -->
         <div class="relative flex-1 max-w-md">
@@ -41,22 +42,22 @@
     <div class="flex flex-col lg:flex-row gap-8">
       <!-- Filters Sidebar -->
       <div class="lg:w-1/4">
-        <div class="bg-white rounded-lg shadow-sm border p-6 sticky top-4">
-          <h3 class="text-lg font-semibold mb-6">Filters</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 sticky top-4 transition-colors">
+          <h3 class="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Filters</h3>
 
           <!-- Brand Filter -->
           <div class="mb-6">
-            <h4 class="font-medium mb-3">Brand</h4>
+            <h4 class="font-medium mb-3 text-gray-900 dark:text-white">Brand</h4>
             <div class="space-y-2">
               <label v-for="brand in availableBrands" :key="brand" class="flex items-center">
                 <input
                   v-model="selectedBrands"
                   :value="brand"
                   type="checkbox"
-                  class="rounded border-gray-300 text-accent-blue focus:ring-accent-blue"
+                  class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-600 dark:bg-gray-700"
                 >
-                <span class="ml-2 text-sm">{{ brand }}</span>
-                <span class="ml-auto text-xs text-gray-500">
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ brand }}</span>
+                <span class="ml-auto text-xs text-gray-500 dark:text-gray-400">
                   ({{ getProductCountByBrand(brand) }})
                 </span>
               </label>
@@ -89,7 +90,7 @@
                   v-model="selectedStorage"
                   :value="storage"
                   type="checkbox"
-                  class="rounded border-gray-300 text-accent-blue focus:ring-accent-blue"
+                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-600"
                 >
                 <span class="ml-2 text-sm">{{ storage }}</span>
               </label>
@@ -252,6 +253,7 @@
 
     <!-- Product Comparison Component -->
     <ProductComparison />
+    </div>
   </div>
 </template>
 
@@ -334,6 +336,7 @@ const filteredProducts = computed(() => {
     minPrice: selectedPriceRange.value?.min || null,
     maxPrice: selectedPriceRange.value?.max || null,
     minRating: '',
+    storage: selectedStorage.value,
     inStock: showInStockOnly.value,
     isNew: showNewOnly.value,
     hasDiscount: showDiscountOnly.value
@@ -370,6 +373,11 @@ const filteredProducts = computed(() => {
   // Rating filter
   if (filters.minRating) {
     products = products.filter(p => p.rating >= parseFloat(filters.minRating))
+  }
+
+  // Storage filter
+  if (filters.storage && filters.storage.length > 0) {
+    products = products.filter(p => p.storage && filters.storage.includes(p.storage))
   }
 
   // Stock filter
@@ -415,7 +423,7 @@ const filteredProducts = computed(() => {
     case 'popular':
       products.sort((a, b) => (b.reviewCount || 0) - (a.reviewCount || 0))
       break
-    case 'newest':
+    case 'featured':
       products.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0))
       break
   }

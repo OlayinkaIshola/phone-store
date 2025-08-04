@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors">
     <div class="container mx-auto px-4 max-w-6xl">
       <!-- Header -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Checkout</h1>
-        <div class="flex items-center space-x-2 text-sm text-gray-600">
-          <router-link to="/cart" class="hover:text-accent-blue">Cart</router-link>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Checkout</h1>
+        <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          <router-link to="/cart" class="hover:text-blue-600 dark:hover:text-blue-400">Cart</router-link>
           <ChevronRight class="w-4 h-4" />
-          <span class="text-accent-blue font-medium">Checkout</span>
+          <span class="text-blue-600 dark:text-blue-400 font-medium">Checkout</span>
         </div>
       </div>
 
@@ -15,18 +15,18 @@
         <!-- Checkout Form -->
         <div class="lg:col-span-2 space-y-8">
           <!-- Contact Information -->
-          <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-colors">
             <div class="flex items-center justify-between mb-6">
-              <h2 class="text-xl font-semibold text-gray-900">Contact Information</h2>
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Contact Information</h2>
               <div v-if="!authStore.isAuthenticated" class="text-sm">
-                <span class="text-gray-600">Already have an account?</span>
-                <router-link to="/auth" class="text-accent-blue hover:underline ml-1">Sign in</router-link>
+                <span class="text-gray-600 dark:text-gray-400">Already have an account?</span>
+                <router-link to="/auth" class="text-blue-600 dark:text-blue-400 hover:underline ml-1">Sign in</router-link>
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
                 <input
                   v-model="checkoutForm.email"
                   type="email"
@@ -322,7 +322,7 @@
             <button
               @click="placeOrder"
               :disabled="!canPlaceOrder || isProcessing"
-              class="w-full mt-6 bg-accent-blue text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              class="w-full mt-6 bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <span v-if="isProcessing">Processing...</span>
               <span v-else>Place Order - ₦{{ totalAmount.toLocaleString() }}</span>

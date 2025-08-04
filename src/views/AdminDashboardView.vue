@@ -1,18 +1,18 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
     <!-- Admin Header -->
-    <div class="bg-white shadow-sm border-b">
+    <div class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors">
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center space-x-4">
-            <h1 class="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
-            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">Administrator</span>
+            <h1 class="text-xl font-semibold text-gray-900 dark:text-white">Admin Dashboard</h1>
+            <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium rounded">Administrator</span>
           </div>
           <div class="flex items-center space-x-4">
-            <span class="text-sm text-gray-600">Welcome, {{ authStore.user?.name }}</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">Welcome, {{ authStore.user?.name }}</span>
             <button
               @click="authStore.logout"
-              class="text-sm text-red-600 hover:text-red-800"
+              class="text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
             >
               Logout
             </button>
@@ -25,7 +25,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Sidebar Navigation -->
         <div class="lg:col-span-1">
-          <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 transition-colors">
             <nav class="space-y-2">
               <button
                 v-for="tab in adminTabs"

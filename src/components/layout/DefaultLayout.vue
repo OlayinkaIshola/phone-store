@@ -1,18 +1,18 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors">
     <AppHeader />
-    
+
     <main class="flex-1">
       <slot />
     </main>
-    
+
     <AppFooter />
-    
+
     <!-- Back to Top Button -->
     <button
       v-if="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-6 right-6 bg-accent-blue text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition-all duration-300 z-40"
+      class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-40"
       aria-label="Back to top"
     >
       <ChevronUp class="w-5 h-5" />

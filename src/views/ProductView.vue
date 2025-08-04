@@ -1,27 +1,28 @@
 <template>
-  <div v-if="product" class="container mx-auto px-4 py-8">
-    <!-- Breadcrumb -->
-    <nav class="mb-8">
-      <ol class="flex items-center space-x-2 text-sm text-gray-600">
-        <li><router-link to="/" class="hover:text-accent-blue">Home</router-link></li>
-        <li><ChevronRight class="w-4 h-4" /></li>
-        <li><router-link to="/shop" class="hover:text-accent-blue">Shop</router-link></li>
-        <li><ChevronRight class="w-4 h-4" /></li>
-        <li class="text-gray-900">{{ product.name }}</li>
-      </ol>
-    </nav>
+  <div v-if="product" class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Breadcrumb -->
+      <nav class="mb-8">
+        <ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          <li><router-link to="/" class="hover:text-blue-600 dark:hover:text-blue-400">Home</router-link></li>
+          <li><ChevronRight class="w-4 h-4" /></li>
+          <li><router-link to="/shop" class="hover:text-blue-600 dark:hover:text-blue-400">Shop</router-link></li>
+          <li><ChevronRight class="w-4 h-4" /></li>
+          <li class="text-gray-900 dark:text-white">{{ product.name }}</li>
+        </ol>
+      </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-      <!-- Product Images -->
-      <div>
-        <!-- Main Image -->
-        <div class="mb-4">
-          <img
-            :src="selectedImage"
-            :alt="product.name"
-            class="w-full h-96 object-contain bg-gray-50 rounded-lg"
-          >
-        </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <!-- Product Images -->
+        <div>
+          <!-- Main Image -->
+          <div class="mb-4">
+            <img
+              :src="selectedImage"
+              :alt="product.name"
+              class="w-full h-96 object-contain bg-gray-50 dark:bg-gray-800 rounded-lg transition-colors"
+            >
+          </div>
 
         <!-- Thumbnail Images -->
         <div class="flex space-x-2 overflow-x-auto">
@@ -106,9 +107,9 @@
                 :key="color"
                 @click="selectedColor = color"
                 :class="selectedColor === color
-                  ? 'ring-2 ring-accent-blue ring-offset-2'
+                  ? 'ring-2 ring-blue-600 ring-offset-2'
                   : 'ring-1 ring-gray-300'"
-                class="flex items-center space-x-2 px-4 py-2 rounded-lg border hover:border-accent-blue transition-colors"
+                class="flex items-center space-x-2 px-4 py-2 rounded-lg border hover:border-blue-600 transition-colors"
               >
                 <div
                   class="w-4 h-4 rounded-full"
@@ -259,18 +260,21 @@
         />
       </div>
     </div>
+    </div>
   </div>
 
   <!-- Product Not Found -->
-  <div v-else class="container mx-auto px-4 py-16 text-center">
-    <div class="text-gray-400 mb-4">
-      <Package class="w-16 h-16 mx-auto" />
+  <div v-else class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div class="container mx-auto px-4 py-16 text-center">
+      <div class="text-gray-400 mb-4">
+        <Package class="w-16 h-16 mx-auto" />
+      </div>
+      <h2 class="text-2xl font-bold text-gray-600 dark:text-gray-400 mb-4">Product Not Found</h2>
+      <p class="text-gray-500 dark:text-gray-500 mb-8">The product you're looking for doesn't exist or has been removed.</p>
+      <router-link to="/shop" class="btn-primary">
+        Continue Shopping
+      </router-link>
     </div>
-    <h2 class="text-2xl font-bold text-gray-600 mb-4">Product Not Found</h2>
-    <p class="text-gray-500 mb-8">The product you're looking for doesn't exist or has been removed.</p>
-    <router-link to="/shop" class="btn-primary">
-      Continue Shopping
-    </router-link>
   </div>
 </template>
 

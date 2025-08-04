@@ -1,8 +1,8 @@
 <template>
-  <div v-if="comparisonProducts.length > 0" class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
+  <div v-if="comparisonProducts.length > 0" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg z-40 transition-colors">
     <div class="container mx-auto px-4 py-4">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-gray-900">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
           Compare Products ({{ comparisonProducts.length }}/3)
         </h3>
         <div class="flex items-center space-x-4">
@@ -15,7 +15,7 @@
           </button>
           <button
             @click="clearComparison"
-            class="text-gray-500 hover:text-gray-700"
+            class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           >
             Clear All
           </button>
@@ -27,7 +27,7 @@
         <div
           v-for="product in comparisonProducts"
           :key="product.id"
-          class="flex-shrink-0 w-48 bg-gray-50 rounded-lg p-3"
+          class="flex-shrink-0 w-48 bg-gray-50 dark:bg-gray-700 rounded-lg p-3 transition-colors"
         >
           <div class="relative">
             <img

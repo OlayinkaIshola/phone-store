@@ -1,19 +1,19 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <!-- Logo and Header -->
       <div class="text-center">
         <router-link to="/" class="inline-block">
-          <div class="text-2xl font-bold text-secondary">📱 PhoneHub</div>
+          <div class="text-2xl font-bold text-gray-900 dark:text-white">📱 PhoneHub</div>
         </router-link>
-        <h2 class="mt-6 text-3xl font-bold text-gray-900">
+        <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
           {{ isLogin ? 'Sign in to your account' : 'Create your account' }}
         </h2>
-        <p class="mt-2 text-sm text-gray-600">
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
           {{ isLogin ? 'Or' : 'Already have an account?' }}
           <button
             @click="toggleMode"
-            class="font-medium text-accent-blue hover:text-blue-500"
+            class="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
           >
             {{ isLogin ? 'create a new account' : 'sign in here' }}
           </button>
@@ -22,12 +22,12 @@
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10 transition-colors">
         <!-- Login Form -->
         <form v-if="isLogin" @submit.prevent="handleLogin" class="space-y-6">
           <!-- Email Field -->
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700">
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Email address
             </label>
             <div class="mt-1 relative">
@@ -37,18 +37,18 @@
                 type="email"
                 autocomplete="email"
                 required
-                :class="errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
-                class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
+                :class="errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:border-blue-600 focus:ring-blue-600'"
+                class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 placeholder="Enter your email"
               >
-              <Mail class="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+              <Mail class="absolute right-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
             </div>
-            <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+            <p v-if="errors.email" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ errors.email }}</p>
           </div>
 
           <!-- Password Field -->
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700">
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Password
             </label>
             <div class="mt-1 relative">
@@ -58,7 +58,7 @@
                 :type="showPassword ? 'text' : 'password'"
                 autocomplete="current-password"
                 required
-                :class="errors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="appearance-none block w-full px-3 py-2 pr-10 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="Enter your password"
               >
@@ -81,7 +81,7 @@
                 id="remember-me"
                 v-model="loginForm.rememberMe"
                 type="checkbox"
-                class="h-4 w-4 text-accent-blue focus:ring-accent-blue border-gray-300 rounded"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-600 border-gray-300 rounded"
               >
               <label for="remember-me" class="ml-2 block text-sm text-gray-900">
                 Remember me
@@ -92,7 +92,7 @@
               <button
                 type="button"
                 @click="showForgotPassword = true"
-                class="font-medium text-accent-blue hover:text-blue-500"
+                class="font-medium text-blue-600 hover:text-blue-500"
               >
                 Forgot your password?
               </button>
@@ -104,7 +104,7 @@
             <button
               type="submit"
               :disabled="isLoading"
-              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-blue disabled:opacity-50 disabled:cursor-not-allowed"
+              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="isLoading" class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <Loader2 class="h-5 w-5 animate-spin" />
@@ -128,7 +128,7 @@
                 type="text"
                 autocomplete="given-name"
                 required
-                :class="errors.firstName ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.firstName ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="mt-1 appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="First name"
               >
@@ -145,7 +145,7 @@
                 type="text"
                 autocomplete="family-name"
                 required
-                :class="errors.lastName ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.lastName ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="mt-1 appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="Last name"
               >
@@ -165,7 +165,7 @@
                 type="email"
                 autocomplete="email"
                 required
-                :class="errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="Enter your email"
               >
@@ -186,7 +186,7 @@
                 type="tel"
                 autocomplete="tel"
                 required
-                :class="errors.phone ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.phone ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="+234 xxx xxx xxxx"
               >
@@ -207,7 +207,7 @@
                 :type="showPassword ? 'text' : 'password'"
                 autocomplete="new-password"
                 required
-                :class="errors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="appearance-none block w-full px-3 py-2 pr-10 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="Create a password"
               >
@@ -249,7 +249,7 @@
                 :type="showConfirmPassword ? 'text' : 'password'"
                 autocomplete="new-password"
                 required
-                :class="errors.confirmPassword ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-accent-blue focus:ring-accent-blue'"
+                :class="errors.confirmPassword ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
                 class="appearance-none block w-full px-3 py-2 pr-10 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
                 placeholder="Confirm your password"
               >
@@ -272,13 +272,13 @@
               v-model="registerForm.acceptTerms"
               type="checkbox"
               required
-              class="h-4 w-4 text-accent-blue focus:ring-accent-blue border-gray-300 rounded"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-600 border-gray-300 rounded"
             >
             <label for="terms" class="ml-2 block text-sm text-gray-900">
               I agree to the
-              <a href="#" class="text-accent-blue hover:text-blue-500">Terms and Conditions</a>
+              <a href="#" class="text-blue-600 hover:text-blue-500">Terms and Conditions</a>
               and
-              <a href="#" class="text-accent-blue hover:text-blue-500">Privacy Policy</a>
+              <a href="#" class="text-blue-600 hover:text-blue-500">Privacy Policy</a>
             </label>
           </div>
 
@@ -287,7 +287,7 @@
             <button
               type="submit"
               :disabled="isLoading || !registerForm.acceptTerms"
-              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-blue disabled:opacity-50 disabled:cursor-not-allowed"
+              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="isLoading" class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <Loader2 class="h-5 w-5 animate-spin" />
@@ -378,7 +378,7 @@
                 v-model="forgotPasswordEmail"
                 type="email"
                 required
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accent-blue focus:border-accent-blue"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-600 focus:border-blue-600"
                 placeholder="Enter your email"
               >
             </div>
@@ -394,7 +394,7 @@
               <button
                 type="submit"
                 :disabled="isResettingPassword"
-                class="px-4 py-2 text-sm font-medium text-white bg-accent-blue hover:bg-blue-700 rounded-md disabled:opacity-50"
+                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md disabled:opacity-50"
               >
                 {{ isResettingPassword ? 'Sending...' : 'Send Reset Link' }}
               </button>

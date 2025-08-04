@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
     <!-- Account Header -->
-    <div class="bg-white shadow">
+    <div class="bg-white dark:bg-gray-800 shadow transition-colors">
       <div class="container mx-auto px-4 py-6">
         <div class="flex items-center space-x-4">
           <div class="relative">
@@ -12,17 +12,17 @@
             >
             <button
               @click="showAvatarUpload = true"
-              class="absolute bottom-0 right-0 bg-accent-blue text-white rounded-full p-1 hover:bg-blue-700"
+              class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-1 hover:bg-blue-700"
             >
               <Camera class="h-4 w-4" />
             </button>
           </div>
           <div>
-            <h1 class="text-2xl font-bold text-secondary">{{ user?.name }}</h1>
-            <p class="text-gray-600">{{ user?.email }}</p>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ user?.name }}</h1>
+            <p class="text-gray-600 dark:text-gray-300">{{ user?.email }}</p>
             <div class="flex items-center mt-1">
               <span
-                :class="user?.emailVerified ? 'text-green-600' : 'text-orange-600'"
+                :class="user?.emailVerified ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'"
                 class="text-sm flex items-center"
               >
                 <CheckCircle v-if="user?.emailVerified" class="h-4 w-4 mr-1" />
@@ -39,13 +39,13 @@
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Sidebar Navigation -->
         <div class="lg:col-span-1">
-          <nav class="bg-white rounded-lg shadow p-6">
+          <nav class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-colors">
             <ul class="space-y-2">
               <li>
                 <button
                   @click="activeTab = 'profile'"
-                  :class="activeTab === 'profile' ? 'bg-accent-blue text-white' : 'text-gray-700 hover:bg-gray-100'"
-                  class="w-full text-left px-4 py-2 rounded-md flex items-center space-x-3"
+                  :class="activeTab === 'profile' ? 'bg-blue-600 text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+                  class="w-full text-left px-4 py-2 rounded-md flex items-center space-x-3 transition-colors"
                 >
                   <User class="h-5 w-5" />
                   <span>Profile</span>
@@ -54,7 +54,7 @@
               <li>
                 <button
                   @click="activeTab = 'orders'"
-                  :class="activeTab === 'orders' ? 'bg-accent-blue text-white' : 'text-gray-700 hover:bg-gray-100'"
+                  :class="activeTab === 'orders' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'"
                   class="w-full text-left px-4 py-2 rounded-md flex items-center space-x-3"
                 >
                   <Package class="h-5 w-5" />
@@ -64,7 +64,7 @@
               <li>
                 <button
                   @click="activeTab = 'addresses'"
-                  :class="activeTab === 'addresses' ? 'bg-accent-blue text-white' : 'text-gray-700 hover:bg-gray-100'"
+                  :class="activeTab === 'addresses' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'"
                   class="w-full text-left px-4 py-2 rounded-md flex items-center space-x-3"
                 >
                   <MapPin class="h-5 w-5" />
@@ -74,7 +74,7 @@
               <li>
                 <button
                   @click="activeTab = 'security'"
-                  :class="activeTab === 'security' ? 'bg-accent-blue text-white' : 'text-gray-700 hover:bg-gray-100'"
+                  :class="activeTab === 'security' ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'"
                   class="w-full text-left px-4 py-2 rounded-md flex items-center space-x-3"
                 >
                   <Shield class="h-5 w-5" />
@@ -336,7 +336,7 @@
                   <button
                     type="submit"
                     :disabled="isChangingPassword"
-                    class="px-6 py-2 bg-accent-blue text-white rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-2"
+                    class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-2"
                   >
                     <Loader2 v-if="isChangingPassword" class="h-4 w-4 animate-spin" />
                     <span>{{ isChangingPassword ? 'Updating...' : 'Change Password' }}</span>

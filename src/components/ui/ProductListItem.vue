@@ -37,7 +37,7 @@
           <div class="mb-4">
             <p class="text-sm text-gray-500 mb-1">{{ product.brand }}</p>
             <h3 
-              class="text-xl font-semibold mb-2 cursor-pointer hover:text-accent-blue transition-colors"
+              class="text-xl font-semibold mb-2 cursor-pointer hover:text-blue-600 transition-colors"
               @click="$router.push(`/product/${product.id}`)"
             >
               {{ product.name }}
@@ -128,8 +128,8 @@
                 @click="addToCart"
                 :disabled="!product.inStock"
                 class="px-6 py-2 rounded-lg font-medium transition-colors"
-                :class="product.inStock 
-                  ? 'bg-accent-blue text-white hover:bg-blue-600' 
+                :class="product.inStock
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
               >
                 {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}

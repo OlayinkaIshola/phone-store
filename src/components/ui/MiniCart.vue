@@ -3,12 +3,12 @@
     <!-- Cart Button -->
     <button
       @click="toggleCart"
-      class="relative p-2 text-gray-600 hover:text-accent-blue transition-colors"
+      class="relative p-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
     >
       <ShoppingCart class="w-6 h-6" />
       <span
         v-if="cartStore.totalItems > 0"
-        class="absolute -top-1 -right-1 bg-accent-blue text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+        class="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
       >
         {{ cartStore.totalItems > 99 ? '99+' : cartStore.totalItems }}
       </span>
@@ -17,14 +17,14 @@
     <!-- Mini Cart Dropdown -->
     <div
       v-if="isOpen"
-      class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border z-50"
+      class="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 transition-colors"
     >
       <div class="p-4">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold">Shopping Cart</h3>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Shopping Cart</h3>
           <button
             @click="closeCart"
-            class="text-gray-400 hover:text-gray-600"
+            class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <X class="w-5 h-5" />
           </button>
@@ -74,7 +74,7 @@
         <div v-if="cartStore.items.length > 0" class="mt-4 pt-4 border-t border-gray-200">
           <div class="flex items-center justify-between mb-4">
             <span class="font-medium">Total:</span>
-            <span class="text-lg font-bold text-accent-blue">
+            <span class="text-lg font-bold text-blue-600">
               ₦{{ cartStore.subtotal.toLocaleString() }}
             </span>
           </div>
@@ -83,14 +83,14 @@
             <router-link
               to="/cart"
               @click="closeCart"
-              class="w-full bg-accent-blue text-white py-2 px-4 rounded-lg text-center block hover:bg-blue-600 transition-colors"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg text-center block hover:bg-blue-700 transition-colors"
             >
               View Cart
             </router-link>
             <router-link
               to="/checkout"
               @click="closeCart"
-              class="w-full border border-accent-blue text-accent-blue py-2 px-4 rounded-lg text-center block hover:bg-blue-50 transition-colors"
+              class="w-full border border-blue-600 text-blue-600 py-2 px-4 rounded-lg text-center block hover:bg-blue-50 transition-colors"
             >
               Checkout
             </router-link>
