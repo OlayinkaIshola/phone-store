@@ -1,36 +1,42 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 transition-colors">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 transition-colors">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <!-- Logo and Header -->
       <div class="text-center">
-        <router-link to="/" class="inline-block">
-          <div class="text-2xl font-bold text-gray-900 dark:text-white">📱 PhoneHub</div>
+        <router-link to="/" class="inline-block group">
+          <div class="flex items-center justify-center space-x-2 text-2xl md:text-3xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <span>📱</span>
+            <span>PhoneStore</span>
+          </div>
         </router-link>
-        <h2 class="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
-          {{ isLogin ? 'Sign in to your account' : 'Create your account' }}
+        <h2 class="mt-6 md:mt-8 text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+          {{ isLogin ? 'Welcome back!' : 'Join PhoneStore' }}
         </h2>
+        <p class="mt-3 md:mt-4 text-sm md:text-base text-gray-600 dark:text-gray-300">
+          {{ isLogin ? 'Sign in to your account' : 'Create your account to get started' }}
+        </p>
         <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          {{ isLogin ? 'Or' : 'Already have an account?' }}
+          {{ isLogin ? 'New to PhoneStore?' : 'Already have an account?' }}
           <button
             @click="toggleMode"
-            class="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300"
+            class="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors ml-1"
           >
-            {{ isLogin ? 'create a new account' : 'sign in here' }}
+            {{ isLogin ? 'Create account' : 'Sign in' }}
           </button>
         </p>
       </div>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10 transition-colors">
+    <div class="mt-6 md:mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div class="bg-white dark:bg-gray-800 py-6 md:py-8 px-4 sm:px-6 md:px-10 shadow-lg sm:rounded-xl border border-gray-200 dark:border-gray-700 transition-colors">
         <!-- Login Form -->
         <form v-if="isLogin" @submit.prevent="handleLogin" class="space-y-6">
           <!-- Email Field -->
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Email address
             </label>
-            <div class="mt-1 relative">
+            <div class="relative">
               <input
                 id="email"
                 v-model="loginForm.email"
@@ -38,34 +44,34 @@
                 autocomplete="email"
                 required
                 :class="errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:border-blue-600 focus:ring-blue-600'"
-                class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                class="appearance-none block w-full px-4 py-3 md:py-2 border rounded-lg shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 text-base md:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors"
                 placeholder="Enter your email"
               >
-              <Mail class="absolute right-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
+              <Mail class="absolute right-3 top-3 md:top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
             </div>
             <p v-if="errors.email" class="mt-1 text-sm text-red-600 dark:text-red-400">{{ errors.email }}</p>
           </div>
 
           <!-- Password Field -->
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Password
             </label>
-            <div class="mt-1 relative">
+            <div class="relative">
               <input
                 id="password"
                 v-model="loginForm.password"
                 :type="showPassword ? 'text' : 'password'"
                 autocomplete="current-password"
                 required
-                :class="errors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-blue-600 focus:ring-blue-600'"
-                class="appearance-none block w-full px-3 py-2 pr-10 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm"
+                :class="errors.password ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 dark:border-gray-600 focus:border-blue-600 focus:ring-blue-600'"
+                class="appearance-none block w-full px-4 py-3 md:py-2 pr-12 border rounded-lg shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 text-base md:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors"
                 placeholder="Enter your password"
               >
               <button
                 type="button"
                 @click="showPassword = !showPassword"
-                class="absolute right-3 top-2.5 h-5 w-5 text-gray-400 hover:text-gray-600"
+                class="absolute right-3 top-3 md:top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <Eye v-if="!showPassword" class="h-5 w-5" />
                 <EyeOff v-else class="h-5 w-5" />
@@ -104,7 +110,7 @@
             <button
               type="submit"
               :disabled="isLoading"
-              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="group relative w-full flex justify-center py-3 md:py-2 px-4 border border-transparent text-base md:text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:shadow-xl"
             >
               <span v-if="isLoading" class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <Loader2 class="h-5 w-5 animate-spin" />
@@ -287,7 +293,7 @@
             <button
               type="submit"
               :disabled="isLoading || !registerForm.acceptTerms"
-              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="group relative w-full flex justify-center py-3 md:py-2 px-4 border border-transparent text-base md:text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:shadow-xl"
             >
               <span v-if="isLoading" class="absolute left-0 inset-y-0 flex items-center pl-3">
                 <Loader2 class="h-5 w-5 animate-spin" />
@@ -298,25 +304,25 @@
         </form>
 
         <!-- Error Message -->
-        <div v-if="authError" class="mt-6 rounded-md bg-red-50 p-4">
+        <div v-if="authError" class="mt-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4">
           <div class="flex">
-            <AlertCircle class="h-5 w-5 text-red-400" />
+            <AlertCircle class="h-5 w-5 text-red-400 dark:text-red-500 flex-shrink-0" />
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-red-800">
+              <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
                 {{ isLogin ? 'Login Failed' : 'Registration Failed' }}
               </h3>
-              <p class="mt-1 text-sm text-red-700">{{ authError }}</p>
+              <p class="mt-1 text-sm text-red-700 dark:text-red-300">{{ authError }}</p>
             </div>
           </div>
         </div>
 
         <!-- Success Message -->
-        <div v-if="successMessage" class="mt-6 rounded-md bg-green-50 p-4">
+        <div v-if="successMessage" class="mt-6 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-4">
           <div class="flex">
-            <CheckCircle class="h-5 w-5 text-green-400" />
+            <CheckCircle class="h-5 w-5 text-green-400 dark:text-green-500 flex-shrink-0" />
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-green-800">Success!</h3>
-              <p class="mt-1 text-sm text-green-700">{{ successMessage }}</p>
+              <h3 class="text-sm font-medium text-green-800 dark:text-green-200">Success!</h3>
+              <p class="mt-1 text-sm text-green-700 dark:text-green-300">{{ successMessage }}</p>
             </div>
           </div>
         </div>
