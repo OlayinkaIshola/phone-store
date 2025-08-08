@@ -1,23 +1,26 @@
 <template>
   <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors">
-    <AppHeader />
+    <AppHeader ref="headerRef" />
 
-    <main class="flex-1">
+    <main class="flex-1 pb-16 md:pb-0">
       <slot />
     </main>
 
     <AppFooter />
 
+    <!-- Mobile Bottom Navigation -->
+    <MobileBottomNav @toggle-search="handleToggleSearch" />
+
     <!-- Back to Top Button -->
     <button
       v-if="showBackToTop"
       @click="scrollToTop"
-      class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-40"
+      class="fixed bottom-20 right-6 md:bottom-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 z-40"
       aria-label="Back to top"
     >
       <ChevronUp class="w-5 h-5" />
     </button>
-    
+
 
   </div>
 </template>
@@ -27,6 +30,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { ChevronUp } from 'lucide-vue-next'
 import AppHeader from './AppHeader.vue'
 import AppFooter from './AppFooter.vue'
+import MobileBottomNav from './MobileBottomNav.vue'
 
 const showBackToTop = ref(false)
 
@@ -39,6 +43,15 @@ const scrollToTop = () => {
     top: 0,
     behavior: 'smooth'
   })
+}
+
+const headerRef = ref()
+
+const handleToggleSearch = () => {
+  // Toggle the mobile search in the header
+  if (headerRef.value) {
+    headerRef.value.showMobileSearch = !headerRef.value.showMobileSearch
+  }
 }
 
 onMounted(() => {

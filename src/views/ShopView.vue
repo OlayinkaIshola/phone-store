@@ -1,30 +1,30 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-6 md:py-8">
       <!-- Page Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Shop</h1>
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="mb-6 md:mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">Shop</h1>
+      <div class="flex flex-col gap-4">
         <!-- Search Bar -->
-        <div class="relative flex-1 max-w-md">
+        <div class="relative w-full">
           <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             v-model="searchQuery"
             type="text"
             placeholder="Search products..."
-            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-transparent"
+            class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent-blue focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
         </div>
 
         <!-- Results Count and Advanced Search Toggle -->
-        <div class="flex items-center space-x-4">
-          <p class="text-gray-600">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">
             Showing {{ filteredProducts.length }} of {{ productsStore.products.length }} products
           </p>
           <button
             @click="toggleAdvancedSearch"
-            class="flex items-center space-x-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            :class="{ 'bg-blue-50 border-blue-300 text-blue-700': showAdvancedSearch }"
+            class="flex items-center justify-center space-x-2 px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            :class="{ 'bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-600 text-blue-700 dark:text-blue-400': showAdvancedSearch }"
           >
             <BarChart3 class="w-4 h-4" />
             <span>{{ showAdvancedSearch ? 'Hide' : 'Show' }} Advanced Search</span>
@@ -39,11 +39,32 @@
       @filters-changed="handleAdvancedFiltersChanged"
     />
 
-    <div class="flex flex-col lg:flex-row gap-8">
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+      <!-- Mobile Filter Toggle -->
+      <div class="lg:hidden">
+        <button
+          @click="showMobileFilters = !showMobileFilters"
+          class="w-full flex items-center justify-center space-x-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        >
+          <Filter class="w-5 h-5" />
+          <span>Filters</span>
+          <ChevronDown class="w-4 h-4 transition-transform" :class="{ 'rotate-180': showMobileFilters }" />
+        </button>
+      </div>
+
       <!-- Filters Sidebar -->
-      <div class="lg:w-1/4">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 sticky top-4 transition-colors">
-          <h3 class="text-lg font-semibold mb-6 text-gray-900 dark:text-white">Filters</h3>
+      <div class="lg:w-1/4" :class="{ 'hidden': !showMobileFilters && !isDesktop }">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 md:p-6 lg:sticky lg:top-4 transition-colors">
+          <div class="flex items-center justify-between mb-4 md:mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Filters</h3>
+            <button
+              v-if="!isDesktop"
+              @click="showMobileFilters = false"
+              class="lg:hidden p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <X class="w-5 h-5 text-gray-500" />
+            </button>
+          </div>
 
           <!-- Brand Filter -->
           <div class="mb-6">
@@ -258,9 +279,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { Search, Grid3X3, List, ChevronLeft, ChevronRight, BarChart3 } from 'lucide-vue-next'
+import { Search, Grid3X3, List, ChevronLeft, ChevronRight, BarChart3, Filter, ChevronDown, X } from 'lucide-vue-next'
 import ProductCard from '@/components/ui/ProductCard.vue'
 import ProductListItem from '@/components/ui/ProductListItem.vue'
 import AdvancedSearch from '@/components/search/AdvancedSearch.vue'
@@ -284,6 +305,10 @@ const sortBy = ref('name')
 const viewMode = ref<'grid' | 'list'>('grid')
 const currentPage = ref(1)
 const itemsPerPage = 12
+
+// Mobile-specific state
+const showMobileFilters = ref(false)
+const isDesktop = ref(window.innerWidth >= 1024)
 
 // Advanced search state
 const showAdvancedSearch = ref(false)
@@ -519,6 +544,14 @@ const isInComparison = (productId: string) => {
   return comparisonStore.isInComparison(productId)
 }
 
+// Handle window resize for mobile responsiveness
+const handleResize = () => {
+  isDesktop.value = window.innerWidth >= 1024
+  if (isDesktop.value) {
+    showMobileFilters.value = false
+  }
+}
+
 // Initialize filters from URL params
 onMounted(() => {
   if (route.query.brand) {
@@ -527,5 +560,12 @@ onMounted(() => {
   if (route.query.search) {
     searchQuery.value = route.query.search as string
   }
+
+  // Add resize listener
+  window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
 })
 </script>
